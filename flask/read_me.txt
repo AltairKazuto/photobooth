@@ -1,12 +1,13 @@
 run nyo nalang sa flask folder HHAHAH
 not sure para san venv pero puro meron sa tutorial para daw lang problema lib versions?
 
-pip install virtualenv
+OPTIONAL::
+    pip install virtualenv
 
-virtualenv venv
+    virtualenv venv
 
-windows > venv\Scripts\activate
-linux > source ./venv/bin/activate
+    windows > venv\Scripts\activate
+    linux > source ./venv/bin/activate
 
 pip install Flask
 
