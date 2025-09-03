@@ -1,4 +1,5 @@
 run nyo nalang sa flask folder HHAHAH
+not sure para san venv pero puro meron sa tutorial para daw lang problema lib versions?
 
 pip install virtualenv
 
