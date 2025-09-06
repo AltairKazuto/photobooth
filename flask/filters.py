@@ -1,7 +1,4 @@
 import cv2
-import base64
-import io
-from PIL import Image
 import numpy as np
 
 ### old film filter ###
@@ -9,8 +6,8 @@ def old_film_filter(img):
 
     #sepia: https://medium.com/dataseries/designing-image-filters-using-opencv-like-abode-photoshop-express-part-2-4479f99fb35
     old_film = cv2.transform(img, np.matrix([[0.272, 0.534, 0.131],
-                                        [0.349, 0.686, 0.168],
-                                        [0.393, 0.769, 0.189]])) # multipying image with special sepia matrix
+                                            [0.349, 0.686, 0.168],
+                                            [0.393, 0.769, 0.189]])) # multipying image with special sepia matrix
     
     np.clip(old_film, 0, 255, out=old_film) # normalizing values greater than 255 to 255
 
@@ -56,11 +53,13 @@ def vhs_filter(img):
     frame = img.astype(np.uint8)
     b,g,r = cv2.split(frame)
 
+    # for the vhs red and blue shift effect
     r_shifted = np.roll(r, shift=3, axis=1)   
     g_shifted = np.roll(g, shift=-5, axis=1) 
     b_shifted = np.roll(b, shift=-3, axis=1)  
     frame = cv2.merge([b_shifted, g_shifted, r_shifted])
 
+    # making the color a bit dull
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV).astype(np.float32)
     h,s,v = cv2.split(hsv)
     h = (h * 1.05) % 180  # since the maximum value of hue is 180

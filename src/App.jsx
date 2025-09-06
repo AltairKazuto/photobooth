@@ -2,7 +2,6 @@ import Webcam from "react-webcam"
 import WebCam from "./WebCam.jsx"
 import { useEffect, useState, useRef } from "react";
 import Picture from './Picture.jsx';
-import { exportComponentAsPNG } from "react-component-export-image";
 import { toPng } from "html-to-image";
 
 
