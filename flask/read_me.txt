@@ -17,3 +17,5 @@ pip install flask-socketio
 ORRR
 
 pip install -r requirements.txt
+
+run video_processing.py to start: python video_processing.py
