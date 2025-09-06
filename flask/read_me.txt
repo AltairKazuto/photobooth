@@ -10,7 +10,10 @@ OPTIONAL::
     linux > source ./venv/bin/activate
 
 pip install Flask
-
 pip install opencv-python
 pip install Pillow
 pip install flask-socketio
+
+ORRR
+
+pip install -r requirements.txt

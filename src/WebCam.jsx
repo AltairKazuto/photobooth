@@ -3,15 +3,10 @@ import Webcam from 'react-webcam'
 import { io } from "socket.io-client"
 
 
+
 const socket = io("http://localhost:5000/");
 
-// const videoConstraints = {
-//   width: 1280,
-//   height: 720,
-//   facingMode: "user"
-// };
-
-const WebCam = () => {
+function WebCam(props) {
     const webcamRef = React.useRef(null);
     const [processed, setProcessed] = useState(null);
 
@@ -20,14 +15,15 @@ const WebCam = () => {
             if (webcamRef.current) {
                 const screenshot = webcamRef.current.getScreenshot();
                 if (screenshot) {
-                    socket.emit('image', screenshot)
+                    socket.emit('image', {sc: screenshot, filter: props.filter});
                 }
+                if (props.onProcessed) props.onProcessed(screenshot);
             }
         }, 10);
         return () => {
             clearInterval(interval);
         };
-    }, []);
+    }, [props.filter, props.onProcessed]);
 
     useEffect(() => {
         socket.on('response_back', function(data) {
@@ -35,16 +31,13 @@ const WebCam = () => {
         });
         return () => socket.off("response_back");
     }, []);
-    // socket.on('connect', function() {
-    //     socket.emit('message', {data: 'I\'m connected!'});
-    // })
-        
+
     return (
         <>  
-           
             <Webcam ref={webcamRef} screenshotFormat="image/jpeg" mirrored="true"/>
-
-            {processed && <img src={processed} alt="Processed" />}
+            <div className='absolute top-0 left-0 z-10'>
+                {processed && <img src={processed} alt="Processed" />}
+            </div>
         </>
     )
 }
