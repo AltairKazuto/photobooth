@@ -29,7 +29,7 @@ const Picture = forwardRef((props, ref) => {
 
 
     return (
-        <div className="shadow-md bg-slate-300" ref={ref}>
+        <div className={`shadow-md ${props.frame}`} ref={ref}>
             <div className="w-52 p-3 inline-grid grid-cols-1 gap-3">
                 {filteredPics.map((pic, i) => (<img src={pic} alt="oh" key={i}/>)).reverse().slice(0,4)}
             </div>

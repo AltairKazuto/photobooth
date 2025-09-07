@@ -14,7 +14,9 @@ function App() {
   const [isCapturing, setIsCapturing] = useState(false);
   const [innerTimer, setInnerTimer] = useState(0);
   const [flash, setFlash] = useState(false);
+  const [selectedTimer, setSelectedTimer] = useState(3);
   const componentRef = useRef(null);
+  const [currentFrame, setCurrentFrame] = useState("bg-slate-300")
 
   const handleExport = async() => {
     if (componentRef.current) {
@@ -49,7 +51,7 @@ function App() {
       setFlash(true);
       const timeout = setTimeout(() => {
         setPictures([...pictures, latestProcessed]);
-        setInnerTimer(5);
+        setInnerTimer(selectedTimer);
         setFlash(false);
       }, 500);
       return () => clearTimeout(timeout);
@@ -58,9 +60,14 @@ function App() {
 
 
   const startCapture = () => {
-    setInnerTimer(5);
+    setInnerTimer(selectedTimer);
     setCounter(4);
     setIsCapturing(true);
+  }
+
+  const changeTimer = (event) => {
+    console.log(event.target.value);
+    setSelectedTimer(parseInt(event.target.value, 10));
   }
 
   return (
@@ -68,6 +75,11 @@ function App() {
       <div>
       <div className="flex">
         <div>
+          <select onChange={changeTimer} disabled={isCapturing}>
+            <option value="3">3 secs</option>
+            <option value="5">5 secs</option>
+            <option value="10">10 secs</option>
+          </select>
           <div className="relative">
             <div className={`absolute z-50 inset-0 bg-white transition-opacity ${flash ? "opacity-80" : "opacity-0"} duration-300`}></div>
             <p className={`absolute z-20 ${!innerTimer ? "hidden" : ""} text-stone-50 outline-black shadow-2xl font-bold text-4xl`}>{innerTimer}</p>
@@ -81,7 +93,7 @@ function App() {
           <button onClick={() => {startCapture()}} disabled={isCapturing}>Capture</button>
           <button onClick={() => {handleExport()}}>Export as PNG</button>
         </div>   
-        <Picture list={pictures} state={filter} ref={componentRef}/>
+        <Picture list={pictures} state={filter} ref={componentRef} frame={currentFrame}/>
       </div>
       </div>
     </>
