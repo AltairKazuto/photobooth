@@ -94,6 +94,10 @@ function App() {
           <button onClick={() => {handleExport()}}>Export as PNG</button>
         </div>   
         <Picture list={pictures} state={filter} ref={componentRef} frame={currentFrame}/>
+        {/* Ikaw na bahala dito AHAHA (filters), I recommend na ung frames na gagamitin is import dito para masama siya export on*/}
+        <button onClick={() => {setCurrentFrame("bg-slate-300")}}>Frame1</button>
+        <button onClick={() => {setCurrentFrame("bg-[url(https://d7hftxdivxxvm.cloudfront.net/?height=630&quality=80&resize_to=fill&src=https%3A%2F%2Fartsy-media-uploads.s3.amazonaws.com%2F2P6t_Yt6dF0TNN76dlp-_Q%252F3417757448_4a6bdf36ce_o.jpg&width=1200)]")}}>Frame2</button>
+        <button onClick={() => {setCurrentFrame("bg-[url(https://i.pinimg.com/736x/cf/5e/27/cf5e272e452b9c7caa8fa0523eeeba9f.jpg)] bg-repeat")}}>Frame3</button>
       </div>
       </div>
     </>
