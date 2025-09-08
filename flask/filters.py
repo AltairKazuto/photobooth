@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+from multiprocessing import Pool, cpu_count
 
 ### old film filter ###
 def old_film_filter(img):
@@ -90,3 +91,27 @@ def pop_art_filter_v2(img):
 
     return pop_art
 
+def neon_filter(img):
+
+    #read the image
+    hsv_image = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    h, s, v= cv2.split(hsv_image)
+
+    dark_threshold = 125
+    bright_threshold = 125
+
+    dark_mask = cv2.inRange(v, 0, dark_threshold)
+    bright_mask = cv2.inRange(v, bright_threshold, 255)
+
+   # Create new H, S, V channels for the transformed image
+    new_h = np.copy(h)
+    new_s = cv2.add(s, 155)
+    new_v = cv2.add(v, 20)
+
+    new_h[dark_mask > 0] = 120
+    new_h[bright_mask > 0] = 170
+
+    transformed_hsv = cv2.merge([new_h, new_s, new_v])
+    neon = cv2.cvtColor(transformed_hsv, cv2.COLOR_HSV2BGR)
+
+    return neon

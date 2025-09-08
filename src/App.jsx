@@ -1,6 +1,6 @@
 import Webcam from "react-webcam"
 import WebCam from "./WebCam.jsx"
-import { useEffect, useState, useRef } from "react";
+import React, {useEffect, useState, useRef, memo} from "react";
 import Picture from './Picture.jsx';
 import { toPng } from "html-to-image";
 
@@ -17,7 +17,7 @@ function App() {
   const [selectedTimer, setSelectedTimer] = useState(3);
   const componentRef = useRef(null);
   const [currentFrame, setCurrentFrame] = useState("bg-slate-300")
-
+  const [buttonAnimating, setButtonAnimating] = useState([0, 0, 0, 0, 0, 0]);
   const handleExport = async() => {
     if (componentRef.current) {
       const dataUrl = await toPng(componentRef.current, {
@@ -70,28 +70,126 @@ function App() {
     setSelectedTimer(parseInt(event.target.value, 10));
   }
 
+  const buttonAnimation = (index, type) => {
+    console.log('in')
+    const nextButtonAnimating = buttonAnimating.map((b, i) => {
+      if(i == index) {
+        return type;
+      }
+      return 0;
+    })
+    setButtonAnimating(nextButtonAnimating)
+  }
+
+ const MyButton = memo(() => {
+    const [buttonAnimating, setButtonAnimating] = useState(0);
+    const buttonAnimation = (type) => {
+      setButtonAnimating(type)
+    }
+
+    return (
+        <div>
+          <button className={`absolute bg-red-200 w-20 h-18 rounded-lg z-1 transition-all duration-100 ease-in-out ${buttonAnimating == 1 ? 'mt-[var(--hover-button)]': buttonAnimating == 2 ? 'mt-[var(--click-button)]': ''}`}
+                  onMouseOver={() => buttonAnimation(1)}
+                  // onMouseUp={() => buttonAnimation(1)}
+                  // onMouseOut={() => buttonAnimation(0)}
+                  // onMouseDown={() => buttonAnimation(2)}
+                  onClick={()=> {setFilter('Normal')}}>Normal</button>
+          <div className={"absolute bg-blue-200 w-20 h-18 rounded-lg mt-3"}></div>
+        </div>
+    )
+  })
+
+
   return (
     <>
       <div>
-      <div className="flex">
-        <div>
-          <select onChange={changeTimer} disabled={isCapturing}>
-            <option value="3">3 secs</option>
-            <option value="5">5 secs</option>
-            <option value="10">10 secs</option>
-          </select>
-          <div className="relative">
-            <div className={`absolute z-50 inset-0 bg-white transition-opacity ${flash ? "opacity-80" : "opacity-0"} duration-300`}></div>
-            <p className={`absolute z-20 ${!innerTimer ? "hidden" : ""} text-stone-50 outline-black shadow-2xl font-bold text-4xl`}>{innerTimer}</p>
-            <WebCam filter={filter} onProcessed={(pic) => setLatestProcessed(pic)}></WebCam>
-          </div>
-          <button onClick={()=> {setFilter('Normal')}}>Normal</button>
-          <button onClick={()=> {setFilter('Old_School')}}>Old School</button>
-          <button onClick={()=> {setFilter('TV')}}>TV</button>
-          <button onClick={()=> {setFilter('Pop_Art')}}>Pop Art</button>
-          <button onClick={()=> {setFilter('VHS')}}>VHS</button>
-          <button onClick={() => {startCapture()}} disabled={isCapturing}>Capture</button>
-          <button onClick={() => {handleExport()}}>Export as PNG</button>
+      <div className="flex bg-red-100 mt-10">
+        <div className={"flex-2/3"}>
+          <div className={"flex justify-center"}>
+            <div className={" bg-white"}>
+              <div className={"relative border-10 border-gray-200"}>
+                <div className={`absolute z-50 inset-0 bg-white transition-opacity ${flash ? "opacity-80" : "opacity-0"} duration-300`}></div>
+                <p className={`absolute z-20 ${!innerTimer ? "hidden" : ""} text-stone-50 outline-black shadow-2xl font-bold text-4xl`}>{innerTimer}</p>
+                <WebCam filter={filter} onProcessed={(pic) => setLatestProcessed(pic)}></WebCam>
+              </div>
+              <div className={"text-right"}>
+                <label> Timer Countdown: </label>
+                <select onChange={changeTimer} disabled={isCapturing}>
+                  <option value="3">3 secs</option>
+                  <option value="5">5 secs</option>
+                  <option value="10">10 secs</option>
+                </select>
+              </div>
+              <div className={"flex w-full h-20"}>
+                <div className={"relative flex-auto w-20 flex justify-center"}>
+                  <button className={`absolute bg-red-200 w-20 h-18 rounded-lg z-1 transition-all duration-100 ease-in-out ${buttonAnimating[0] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[0] == 2 ? 'mt-[var(--click-button)]': ''}`}
+                          onMouseOver={() => buttonAnimation(0, 1)}
+                          onMouseUp={() => buttonAnimation(0, 1)}
+                          onMouseOut={() => buttonAnimation(0, 0)}
+                          onMouseDown={() => buttonAnimation(0, 2)} onClick={()=> {setFilter('Normal')}}>Normal</button>
+                  <div className={"absolute bg-blue-200 w-20 h-18 rounded-lg mt-3"}></div>
+                </div>
+                <div className={"relative flex-auto w-20 flex justify-center"}>
+                  <button className={`absolute bg-red-200 w-20 h-18 rounded-lg z-1 transition-all duration-100 ease-in-out ${buttonAnimating[1] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[1] == 2 ? 'mt-[var(--click-button)]': ''}`}
+                          onMouseOver={() => buttonAnimation(1, 1)}
+                          onMouseUp={() => buttonAnimation(1, 1)}
+                          onMouseOut={() => buttonAnimation(1, 0)}
+                          onMouseDown={() => buttonAnimation(1, 2)} onClick={()=> {setFilter('Old_School')}}>Old School</button>
+                  <div className={"absolute bg-blue-200 w-20 h-18 rounded-lg mt-3"}></div>
+                </div>
+                <div className={"relative flex-auto w-20 flex justify-center"}>
+                  <button className={`absolute bg-red-200 w-20 h-18 rounded-lg z-1 transition-all duration-100 ease-in-out ${buttonAnimating[2] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[2] == 2 ? 'mt-[var(--click-button)]': ''}`}
+                          onMouseOver={() => buttonAnimation(2, 1)}
+                          onMouseUp={() => buttonAnimation(2, 1)}
+                          onMouseOut={() => buttonAnimation(2, 0)}
+                          onMouseDown={() => buttonAnimation(2, 2)} onClick={()=> {setFilter('TV')}}>TV</button>
+                  <div className={"absolute bg-blue-200 w-20 h-18 rounded-lg mt-3"}></div>
+                </div>
+                <div className={"relative flex-auto w-20 flex justify-center"}>
+                  <button className={`absolute bg-red-200 w-20 h-18 rounded-lg z-1 transition-all duration-100 ease-in-out ${buttonAnimating[3] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[3] == 2 ? 'mt-[var(--click-button)]': ''}`}
+                          onMouseOver={() => buttonAnimation(3, 1)}
+                          onMouseUp={() => buttonAnimation(3, 1)}
+                          onMouseOut={() => buttonAnimation(3, 0)}
+                          onMouseDown={() => buttonAnimation(3, 2)} onClick={()=> {setFilter('Pop_Art')}}>Pop Art</button>
+                  <div className={"absolute bg-blue-200 w-20 h-18 rounded-lg mt-3"}></div>
+                </div>
+                <div className={"relative flex-auto w-20 flex justify-center"}>
+                  <button className={`absolute bg-red-200 w-20 h-18 rounded-lg z-1 transition-all duration-100 ease-in-out ${buttonAnimating[4] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[4] == 2 ? 'mt-[var(--click-button)]': ''}`}
+                          onMouseOver={() => buttonAnimation(4, 1)}
+                          onMouseUp={() => buttonAnimation(4, 1)}
+                          onMouseOut={() => buttonAnimation(4, 0)}
+                          onMouseDown={() => buttonAnimation(4, 2)} onClick={()=> {setFilter('VHS')}}>VHS</button>
+                  <div className={"absolute bg-blue-200 w-20 h-18 rounded-lg mt-3"}></div>
+                </div>
+                <div className={"relative flex-auto w-20 flex justify-center"}>
+                  <button className={`absolute bg-red-200 w-20 h-18 rounded-lg z-1 transition-all duration-100 ease-in-out ${buttonAnimating[5] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[5] == 2 ? 'mt-[var(--click-button)]': ''}`}
+                          onMouseOver={() => buttonAnimation(5, 1)}
+                          onMouseUp={() => buttonAnimation(5, 1)}
+                          onMouseOut={() => buttonAnimation(5, 0)}
+                          onMouseDown={() => buttonAnimation(5, 2)} onClick={()=> {setFilter('Neon')}}>Neon</button>
+                  <div className={"absolute bg-blue-200 w-20 h-18 rounded-lg mt-3"}></div>
+                </div>
+                <button className={"w-10 bg-black flex-auto"} onClick={() => {handleExport()}}>Export as PNG</button>
+              </div>
+
+              {/*<MyButton></MyButton>*/}
+              {/*<button onClick={()=> {setFilter('Old_School')}}>Old School</button>*/}
+              {/*<button onClick={()=> {setFilter('TV')}}>TV</button>*/}
+              {/*<button onClick={()=> {setFilter('Pop_Art')}}>Pop Art</button>*/}
+              {/*<button onClick={()=> {setFilter('VHS')}}>VHS</button>*/}
+              {/*<button onClick={()=> {setFilter('Neon')}}>Neon</button>*/}
+              <div className={"flex justify-center mt-5"}>
+                <button className={"bg-red-400 w-1/2 rounded-lg"} onClick={() => {startCapture()}} disabled={isCapturing}>Capture</button>
+              </div>
+
+
+            </div>
+        </div>
+
+
+
+
         </div>   
         <Picture list={pictures} state={filter} ref={componentRef} frame={currentFrame}/>
         {/* Ikaw na bahala dito AHAHA (filters), I recommend na ung frames na gagamitin is import dito para masama siya export on*/}

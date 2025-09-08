@@ -5,7 +5,9 @@ from PIL import Image
 import numpy as np
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
-from filters import old_film_filter, bw_tv_filter, vhs_filter, pop_art_filter_v2
+from filters import old_film_filter, bw_tv_filter, vhs_filter, pop_art_filter_v2, neon_
+from multiprocessing import Pool, cpu_count
+
 
 sio = SocketIO()
 
@@ -42,7 +44,15 @@ def image_formation(data_image, filter):
     matrix = np.array(pimg)
     frame = cv2.resize(matrix, (640, 480))
 
+#     num_processes = cpu_count()
+#     chunk_size = 40
+#     chunks = [frame[i*chunk_size:(i+1)*chunk_size] for i in range(num_processes)]
+
+
     if filter == 'Old_School':
+#         with Pool(processes = num_processes) as pool:
+#             processed_chunks = pool.map(old_film_filter, chunks)
+#         frame = np.vstack(processed_chunks)
         frame = old_film_filter(frame)
     elif filter == "TV":
         frame = bw_tv_filter(frame)
@@ -50,11 +60,14 @@ def image_formation(data_image, filter):
         frame = pop_art_filter_v2(frame)
     elif filter == "VHS":
         frame = vhs_filter(frame)
+    elif filter == "Neon":
+        print('here')
+        frame = neon_filter(frame)
     else:
         frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
     
     imgencode = cv2.imencode('.jpg', frame, [int(cv2.IMWRITE_JPEG_QUALITY), 50])[1]
-
+    print("here", cv2.cuda.getCudaEnabledDeviceCount(), cpu_count())
     stringData = base64.b64encode(imgencode).decode('utf-8')
     b64_src = 'data:image/jpeg;base64,'
 
