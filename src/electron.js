@@ -3,7 +3,7 @@ const { app, BrowserWindow } = require('electron');
 function createWindow() {
     const win = new BrowserWindow({
         width: 1440,
-        height: 800,
+        height: 880,
         webPreferences: {
             devTools: false, // Disable DevTools
             nodeIntegration: true, // Enable Node.js integration in the renderer process
@@ -13,6 +13,7 @@ function createWindow() {
 
     win.loadURL('http://localhost:3000'); // Load your React app's development server
     win.webContents.openDevTools(); // Open DevTools for debugging
+    win.setMenuBarVisibility(false);
 }
 
 app.whenReady().then(createWindow);
