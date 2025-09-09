@@ -2,6 +2,7 @@ import Webcam from "react-webcam"
 import WebCam from "./WebCam.jsx"
 import React, {useEffect, useState, useRef, memo} from "react";
 import Picture from './Picture.jsx';
+import background from './icons/photobooth_bg.png';
 import { toPng } from "html-to-image";
 
 
@@ -22,6 +23,11 @@ function App() {
   const componentRef5 = useRef(null);
   const [currentFrame, setCurrentFrame] = useState(0)
   const [buttonAnimating, setButtonAnimating] = useState([0, 0, 0, 0, 0, 0, 0, 0]);
+
+  // Colors
+  const buttonColor = " bg-red-400 text-black font-bold text-[20px]";
+  const buttonSideColor = " bg-rose-950";
+
   const handleExport = async() => {
     if (componentRef2.current) {
       const dataUrl = await toPng(componentRef2.current, {
@@ -85,6 +91,7 @@ function App() {
     setButtonAnimating(nextButtonAnimating)
   }
 
+
  const MyButton = memo(() => {
     const [buttonAnimating, setButtonAnimating] = useState(0);
     const buttonAnimation = (type) => {
@@ -107,17 +114,18 @@ function App() {
 
   return (
     <>
-      <div>
-      <div className="flex bg-red-100 mt-10">
+      <div className={"bg-black"}>
+        {/*style={{backgroundImage: `url(${background})`, backgroundSize: 'cover'}}*/}
+      <div className="flex bg-white pt-10 pb-15">
         <div className={"flex-2/3"}>
           <div className={"flex justify-center"}>
-            <div className={" bg-white"}>
-              <div className={"relative border-10 border-gray-200"}>
+            <div>
+              <div className={"relative border-10 border-black rounded-md"}>
                 <div className={`absolute z-50 inset-0 bg-white transition-opacity ${flash ? "opacity-80" : "opacity-0"} duration-300`}></div>
                 <p className={`absolute z-20 ${!innerTimer ? "hidden" : ""} text-stone-50 outline-black shadow-2xl font-bold text-4xl`}>{innerTimer}</p>
                 <WebCam filter={filter} onProcessed={(pic) => setLatestProcessed(pic)}></WebCam>
               </div>
-              <div className={"text-right"}>
+              <div className={"text-right text-white"}>
                 <label> Timer Countdown: </label>
                 <select onChange={changeTimer} disabled={isCapturing}>
                   <option value="3">3 secs</option>
@@ -129,59 +137,59 @@ function App() {
                 <div className={"flex flex-col w-4/5 gap-6"}>
                   <div className={"flex w-full h-20"}>
                     <div className={"relative flex-auto w-20 flex justify-center"}>
-                      <button className={`absolute bg-red-200 w-24 h-18 rounded-lg z-1 shadow-md transition-all duration-100 ease-in-out ${buttonAnimating[0] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[0] == 2 ? 'mt-[var(--click-button)]': ''}`}
+                      <button className={`absolute ${buttonColor} w-24 h-18 rounded-lg z-1 shadow-md transition-all duration-100 ease-in-out ${buttonAnimating[0] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[0] == 2 ? 'mt-[var(--click-button)]': ''}`}
                               onMouseOver={() => buttonAnimation(0, 1)}
                               onMouseUp={() => buttonAnimation(0, 1)}
                               onMouseOut={() => buttonAnimation(0, 0)}
                               onMouseDown={() => buttonAnimation(0, 2)} onClick={()=> {setFilter('Normal')}}>Normal</button>
-                      <div className={"absolute bg-blue-200 w-24 h-18 rounded-lg mt-3"}></div>
+                      <div className={`absolute ${buttonSideColor} w-24 h-18 rounded-lg mt-3`}></div>
                     </div>
                     <div className={"relative flex-auto w-20 flex justify-center"}>
-                      <button className={`absolute bg-red-200 w-24 h-18 rounded-lg z-1 shadow-md transition-all duration-100 ease-in-out ${buttonAnimating[1] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[1] == 2 ? 'mt-[var(--click-button)]': ''}`}
+                      <button className={`absolute ${buttonColor} w-24 h-18 rounded-lg z-1 shadow-md transition-all duration-100 ease-in-out ${buttonAnimating[1] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[1] == 2 ? 'mt-[var(--click-button)]': ''}`}
                               onMouseOver={() => buttonAnimation(1, 1)}
                               onMouseUp={() => buttonAnimation(1, 1)}
                               onMouseOut={() => buttonAnimation(1, 0)}
                               onMouseDown={() => buttonAnimation(1, 2)} onClick={()=> {setFilter('Old_School')}}>Old School</button>
-                      <div className={"absolute bg-blue-200 w-24 h-18 rounded-lg mt-3"}></div>
+                      <div className={`absolute  ${buttonSideColor} w-24 h-18 rounded-lg mt-3`}></div>
                     </div>
                     <div className={"relative flex-auto w-20 flex justify-center"}>
-                      <button className={`absolute bg-red-200 w-24 h-18 rounded-lg z-1 shadow-md transition-all duration-100 ease-in-out ${buttonAnimating[2] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[2] == 2 ? 'mt-[var(--click-button)]': ''}`}
+                      <button className={`absolute ${buttonColor} w-24 h-18 rounded-lg z-1 shadow-md transition-all duration-100 ease-in-out ${buttonAnimating[2] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[2] == 2 ? 'mt-[var(--click-button)]': ''}`}
                               onMouseOver={() => buttonAnimation(2, 1)}
                               onMouseUp={() => buttonAnimation(2, 1)}
                               onMouseOut={() => buttonAnimation(2, 0)}
                               onMouseDown={() => buttonAnimation(2, 2)} onClick={()=> {setFilter('TV')}}>TV</button>
-                      <div className={"absolute bg-blue-200 w-24 h-18 rounded-lg mt-3"}></div>
+                      <div className={`absolute  ${buttonSideColor} w-24 h-18 rounded-lg mt-3`}></div>
                     </div>
                     <div className={"relative flex-auto w-20 flex justify-center"}>
-                      <button className={`absolute bg-red-200 w-24 h-18 rounded-lg z-1 shadow-md transition-all duration-100 ease-in-out ${buttonAnimating[3] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[3] == 2 ? 'mt-[var(--click-button)]': ''}`}
+                      <button className={`absolute ${buttonColor} w-24 h-18 rounded-lg z-1 shadow-md transition-all duration-100 ease-in-out ${buttonAnimating[3] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[3] == 2 ? 'mt-[var(--click-button)]': ''}`}
                               onMouseOver={() => buttonAnimation(3, 1)}
                               onMouseUp={() => buttonAnimation(3, 1)}
                               onMouseOut={() => buttonAnimation(3, 0)}
                               onMouseDown={() => buttonAnimation(3, 2)} onClick={()=> {setFilter('Pop_Art')}}>Pop Art</button>
-                      <div className={"absolute bg-blue-200 w-24 h-18 rounded-lg mt-3"}></div>
+                      <div className={`absolute  ${buttonSideColor} w-24 h-18 rounded-lg mt-3`}></div>
                     </div>
                     <div className={"relative flex-auto w-20 flex justify-center"}>
-                      <button className={`absolute bg-red-200 w-24 h-18 rounded-lg z-1 shadow-md transition-all duration-100 ease-in-out ${buttonAnimating[4] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[4] == 2 ? 'mt-[var(--click-button)]': ''}`}
+                      <button className={`absolute ${buttonColor} w-24 h-18 rounded-lg z-1 shadow-md transition-all duration-100 ease-in-out ${buttonAnimating[4] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[4] == 2 ? 'mt-[var(--click-button)]': ''}`}
                               onMouseOver={() => buttonAnimation(4, 1)}
                               onMouseUp={() => buttonAnimation(4, 1)}
                               onMouseOut={() => buttonAnimation(4, 0)}
                               onMouseDown={() => buttonAnimation(4, 2)} onClick={()=> {setFilter('VHS')}}>VHS</button>
-                      <div className={"absolute bg-blue-200 w-24 h-18 rounded-lg mt-3"}></div>
+                      <div className={`absolute  ${buttonSideColor} w-24 h-18 rounded-lg mt-3`}></div>
                     </div>
                     <div className={"relative flex-auto w-20 flex justify-center"}>
-                      <button className={`absolute bg-red-200 w-24 h-18 rounded-lg z-1 shadow-md transition-all duration-100 ease-in-out ${buttonAnimating[5] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[5] == 2 ? 'mt-[var(--click-button)]': ''}`}
+                      <button className={`absolute ${buttonColor} w-24 h-18 rounded-lg z-1 shadow-md transition-all duration-100 ease-in-out ${buttonAnimating[5] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[5] == 2 ? 'mt-[var(--click-button)]': ''}`}
                               onMouseOver={() => buttonAnimation(5, 1)}
                               onMouseUp={() => buttonAnimation(5, 1)}
                               onMouseOut={() => buttonAnimation(5, 0)}
                               onMouseDown={() => buttonAnimation(5, 2)} onClick={()=> {setFilter('Neon')}}>Neon</button>
-                      <div className={"absolute bg-blue-200 w-24 h-18 rounded-lg mt-3"}></div>
+                      <div className={`absolute  ${buttonSideColor} w-24 h-18 rounded-lg mt-3`}></div>
                     </div>
                   </div>
                   <div className={"relative h-18 flex justify-center"}>
                     <div className={"relative flex-auto w-full flex justify-center px-2"}>
 
-                        <div className={"relative bg-blue-200 w-full h-18 rounded-lg"}>
-                          <button className={`absolute -top-3 bg-red-200 shadow-md w-full h-18 rounded-lg z-2 transition-all duration-100 ease-in-out ${buttonAnimating[6] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[6] == 2 ? 'mt-[var(--click-button)]': ''}`}
+                        <div className={`relative ${buttonSideColor} w-full h-18 rounded-lg`}>
+                          <button className={`absolute -top-3 ${buttonColor} shadow-md w-full h-18 rounded-lg z-2 transition-all duration-100 ease-in-out ${buttonAnimating[6] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[6] == 2 ? 'mt-[var(--click-button)]': ''}`}
                                   onMouseOver={() => buttonAnimation(6, 1)}
                                   onMouseUp={() => buttonAnimation(6, 1)}
                                   onMouseOut={() => buttonAnimation(6, 0)}
