@@ -24,16 +24,18 @@ function App() {
   const [currentFrame, setCurrentFrame] = useState(0)
   const [buttonAnimating, setButtonAnimating] = useState([0, 0, 0, 0, 0, 0, 0, 0]);
 
+  const refs = [componentRef, componentRef2, componentRef3, componentRef4, componentRef5]
+
   // Colors
   const buttonColor = " bg-red-400 text-black font-bold text-[20px]";
   const buttonSideColor = " bg-rose-950";
 
   const handleExport = async() => {
-    if (componentRef2.current) {
-      const dataUrl = await toPng(componentRef2.current, {
+    if (refs[currentFrame].current) {
+      const dataUrl = await toPng(refs[currentFrame].current, {
         cacheBust: true,
-        width: componentRef2.current.scrollWidth,
-        height: componentRef2.current.scrollHeight
+        width: refs[currentFrame].current.scrollWidth,
+        height: refs[currentFrame].current.scrollHeight
       });
       const link = document.createElement("a");
       link.download = "export.png";
