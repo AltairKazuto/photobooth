@@ -5,7 +5,7 @@ from PIL import Image
 import numpy as np
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
-from filters import old_film_filter, bw_tv_filter, vhs_filter, pop_art_filter_v2, neon_
+from filters import old_film_filter, bw_tv_filter, vhs_filter, pop_art_filter_v2, neon_filter
 from multiprocessing import Pool, cpu_count
 
 

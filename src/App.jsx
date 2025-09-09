@@ -17,7 +17,7 @@ function App() {
   const [selectedTimer, setSelectedTimer] = useState(3);
   const componentRef = useRef(null);
   const [currentFrame, setCurrentFrame] = useState("bg-slate-300")
-  const [buttonAnimating, setButtonAnimating] = useState([0, 0, 0, 0, 0, 0]);
+  const [buttonAnimating, setButtonAnimating] = useState([0, 0, 0, 0, 0, 0, 0]);
   const handleExport = async() => {
     if (componentRef.current) {
       const dataUrl = await toPng(componentRef.current, {
@@ -121,57 +121,81 @@ function App() {
                   <option value="10">10 secs</option>
                 </select>
               </div>
-              <div className={"flex w-full h-20"}>
-                <div className={"relative flex-auto w-20 flex justify-center"}>
-                  <button className={`absolute bg-red-200 w-20 h-18 rounded-lg z-1 transition-all duration-100 ease-in-out ${buttonAnimating[0] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[0] == 2 ? 'mt-[var(--click-button)]': ''}`}
-                          onMouseOver={() => buttonAnimation(0, 1)}
-                          onMouseUp={() => buttonAnimation(0, 1)}
-                          onMouseOut={() => buttonAnimation(0, 0)}
-                          onMouseDown={() => buttonAnimation(0, 2)} onClick={()=> {setFilter('Normal')}}>Normal</button>
-                  <div className={"absolute bg-blue-200 w-20 h-18 rounded-lg mt-3"}></div>
+              <div className={"flex justify-center"}>
+                <div className={"flex flex-col w-4/5 gap-6"}>
+                  <div className={"flex w-full h-20"}>
+                    <div className={"relative flex-auto w-20 flex justify-center"}>
+                      <button className={`absolute bg-red-200 w-24 h-18 rounded-lg z-1 shadow-md transition-all duration-100 ease-in-out ${buttonAnimating[0] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[0] == 2 ? 'mt-[var(--click-button)]': ''}`}
+                              onMouseOver={() => buttonAnimation(0, 1)}
+                              onMouseUp={() => buttonAnimation(0, 1)}
+                              onMouseOut={() => buttonAnimation(0, 0)}
+                              onMouseDown={() => buttonAnimation(0, 2)} onClick={()=> {setFilter('Normal')}}>Normal</button>
+                      <div className={"absolute bg-blue-200 w-24 h-18 rounded-lg mt-3"}></div>
+                    </div>
+                    <div className={"relative flex-auto w-20 flex justify-center"}>
+                      <button className={`absolute bg-red-200 w-24 h-18 rounded-lg z-1 shadow-md transition-all duration-100 ease-in-out ${buttonAnimating[1] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[1] == 2 ? 'mt-[var(--click-button)]': ''}`}
+                              onMouseOver={() => buttonAnimation(1, 1)}
+                              onMouseUp={() => buttonAnimation(1, 1)}
+                              onMouseOut={() => buttonAnimation(1, 0)}
+                              onMouseDown={() => buttonAnimation(1, 2)} onClick={()=> {setFilter('Old_School')}}>Old School</button>
+                      <div className={"absolute bg-blue-200 w-24 h-18 rounded-lg mt-3"}></div>
+                    </div>
+                    <div className={"relative flex-auto w-20 flex justify-center"}>
+                      <button className={`absolute bg-red-200 w-24 h-18 rounded-lg z-1 shadow-md transition-all duration-100 ease-in-out ${buttonAnimating[2] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[2] == 2 ? 'mt-[var(--click-button)]': ''}`}
+                              onMouseOver={() => buttonAnimation(2, 1)}
+                              onMouseUp={() => buttonAnimation(2, 1)}
+                              onMouseOut={() => buttonAnimation(2, 0)}
+                              onMouseDown={() => buttonAnimation(2, 2)} onClick={()=> {setFilter('TV')}}>TV</button>
+                      <div className={"absolute bg-blue-200 w-24 h-18 rounded-lg mt-3"}></div>
+                    </div>
+                    <div className={"relative flex-auto w-20 flex justify-center"}>
+                      <button className={`absolute bg-red-200 w-24 h-18 rounded-lg z-1 shadow-md transition-all duration-100 ease-in-out ${buttonAnimating[3] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[3] == 2 ? 'mt-[var(--click-button)]': ''}`}
+                              onMouseOver={() => buttonAnimation(3, 1)}
+                              onMouseUp={() => buttonAnimation(3, 1)}
+                              onMouseOut={() => buttonAnimation(3, 0)}
+                              onMouseDown={() => buttonAnimation(3, 2)} onClick={()=> {setFilter('Pop_Art')}}>Pop Art</button>
+                      <div className={"absolute bg-blue-200 w-24 h-18 rounded-lg mt-3"}></div>
+                    </div>
+                    <div className={"relative flex-auto w-20 flex justify-center"}>
+                      <button className={`absolute bg-red-200 w-24 h-18 rounded-lg z-1 shadow-md transition-all duration-100 ease-in-out ${buttonAnimating[4] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[4] == 2 ? 'mt-[var(--click-button)]': ''}`}
+                              onMouseOver={() => buttonAnimation(4, 1)}
+                              onMouseUp={() => buttonAnimation(4, 1)}
+                              onMouseOut={() => buttonAnimation(4, 0)}
+                              onMouseDown={() => buttonAnimation(4, 2)} onClick={()=> {setFilter('VHS')}}>VHS</button>
+                      <div className={"absolute bg-blue-200 w-24 h-18 rounded-lg mt-3"}></div>
+                    </div>
+                    <div className={"relative flex-auto w-20 flex justify-center"}>
+                      <button className={`absolute bg-red-200 w-24 h-18 rounded-lg z-1 shadow-md transition-all duration-100 ease-in-out ${buttonAnimating[5] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[5] == 2 ? 'mt-[var(--click-button)]': ''}`}
+                              onMouseOver={() => buttonAnimation(5, 1)}
+                              onMouseUp={() => buttonAnimation(5, 1)}
+                              onMouseOut={() => buttonAnimation(5, 0)}
+                              onMouseDown={() => buttonAnimation(5, 2)} onClick={()=> {setFilter('Neon')}}>Neon</button>
+                      <div className={"absolute bg-blue-200 w-24 h-18 rounded-lg mt-3"}></div>
+                    </div>
+                  </div>
+                  <div className={"relative h-18 flex justify-center"}>
+                    <div className={"relative flex-auto w-full flex justify-center px-2"}>
+
+                        <div className={"relative bg-blue-200 w-full h-18 rounded-lg"}>
+                          <button className={`absolute -top-3 bg-red-200 shadow-md w-full h-18 rounded-lg z-2 transition-all duration-100 ease-in-out ${buttonAnimating[6] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[6] == 2 ? 'mt-[var(--click-button)]': ''}`}
+                                  onMouseOver={() => buttonAnimation(6, 1)}
+                                  onMouseUp={() => buttonAnimation(6, 1)}
+                                  onMouseOut={() => buttonAnimation(6, 0)}
+                                  onMouseDown={() => buttonAnimation(6, 2)}
+                                  onClick={() => {startCapture()}} disabled={isCapturing}>Capture</button>
+                        </div>
+
+
+                    </div>
+                    <button className={"absolute -top-3 -right-20 flex-auto h-18 w-18"} onClick={() => {handleExport()}}>
+                      <img className={"w-full h-full"} src={require("./icons/export.png")} />
+                    </button>
+                  </div>
                 </div>
-                <div className={"relative flex-auto w-20 flex justify-center"}>
-                  <button className={`absolute bg-red-200 w-20 h-18 rounded-lg z-1 transition-all duration-100 ease-in-out ${buttonAnimating[1] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[1] == 2 ? 'mt-[var(--click-button)]': ''}`}
-                          onMouseOver={() => buttonAnimation(1, 1)}
-                          onMouseUp={() => buttonAnimation(1, 1)}
-                          onMouseOut={() => buttonAnimation(1, 0)}
-                          onMouseDown={() => buttonAnimation(1, 2)} onClick={()=> {setFilter('Old_School')}}>Old School</button>
-                  <div className={"absolute bg-blue-200 w-20 h-18 rounded-lg mt-3"}></div>
-                </div>
-                <div className={"relative flex-auto w-20 flex justify-center"}>
-                  <button className={`absolute bg-red-200 w-20 h-18 rounded-lg z-1 transition-all duration-100 ease-in-out ${buttonAnimating[2] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[2] == 2 ? 'mt-[var(--click-button)]': ''}`}
-                          onMouseOver={() => buttonAnimation(2, 1)}
-                          onMouseUp={() => buttonAnimation(2, 1)}
-                          onMouseOut={() => buttonAnimation(2, 0)}
-                          onMouseDown={() => buttonAnimation(2, 2)} onClick={()=> {setFilter('TV')}}>TV</button>
-                  <div className={"absolute bg-blue-200 w-20 h-18 rounded-lg mt-3"}></div>
-                </div>
-                <div className={"relative flex-auto w-20 flex justify-center"}>
-                  <button className={`absolute bg-red-200 w-20 h-18 rounded-lg z-1 transition-all duration-100 ease-in-out ${buttonAnimating[3] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[3] == 2 ? 'mt-[var(--click-button)]': ''}`}
-                          onMouseOver={() => buttonAnimation(3, 1)}
-                          onMouseUp={() => buttonAnimation(3, 1)}
-                          onMouseOut={() => buttonAnimation(3, 0)}
-                          onMouseDown={() => buttonAnimation(3, 2)} onClick={()=> {setFilter('Pop_Art')}}>Pop Art</button>
-                  <div className={"absolute bg-blue-200 w-20 h-18 rounded-lg mt-3"}></div>
-                </div>
-                <div className={"relative flex-auto w-20 flex justify-center"}>
-                  <button className={`absolute bg-red-200 w-20 h-18 rounded-lg z-1 transition-all duration-100 ease-in-out ${buttonAnimating[4] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[4] == 2 ? 'mt-[var(--click-button)]': ''}`}
-                          onMouseOver={() => buttonAnimation(4, 1)}
-                          onMouseUp={() => buttonAnimation(4, 1)}
-                          onMouseOut={() => buttonAnimation(4, 0)}
-                          onMouseDown={() => buttonAnimation(4, 2)} onClick={()=> {setFilter('VHS')}}>VHS</button>
-                  <div className={"absolute bg-blue-200 w-20 h-18 rounded-lg mt-3"}></div>
-                </div>
-                <div className={"relative flex-auto w-20 flex justify-center"}>
-                  <button className={`absolute bg-red-200 w-20 h-18 rounded-lg z-1 transition-all duration-100 ease-in-out ${buttonAnimating[5] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[5] == 2 ? 'mt-[var(--click-button)]': ''}`}
-                          onMouseOver={() => buttonAnimation(5, 1)}
-                          onMouseUp={() => buttonAnimation(5, 1)}
-                          onMouseOut={() => buttonAnimation(5, 0)}
-                          onMouseDown={() => buttonAnimation(5, 2)} onClick={()=> {setFilter('Neon')}}>Neon</button>
-                  <div className={"absolute bg-blue-200 w-20 h-18 rounded-lg mt-3"}></div>
-                </div>
-                <button className={"w-10 bg-black flex-auto"} onClick={() => {handleExport()}}>Export as PNG</button>
               </div>
+
+
+
 
               {/*<MyButton></MyButton>*/}
               {/*<button onClick={()=> {setFilter('Old_School')}}>Old School</button>*/}
@@ -179,9 +203,7 @@ function App() {
               {/*<button onClick={()=> {setFilter('Pop_Art')}}>Pop Art</button>*/}
               {/*<button onClick={()=> {setFilter('VHS')}}>VHS</button>*/}
               {/*<button onClick={()=> {setFilter('Neon')}}>Neon</button>*/}
-              <div className={"flex justify-center mt-5"}>
-                <button className={"bg-red-400 w-1/2 rounded-lg"} onClick={() => {startCapture()}} disabled={isCapturing}>Capture</button>
-              </div>
+
 
 
             </div>
