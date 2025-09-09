@@ -28,7 +28,7 @@ const Picture = forwardRef((props, ref) => {
     }, [props.list])
 
     useEffect(() => {
-        socket.emit("list_image", {sc: listofPics, filter: props.state});
+        socket.emit("list_image", {sc: listofPics, filter: props.state, setting: props.setting});
     }, [props.state, listofPics]);
 
 

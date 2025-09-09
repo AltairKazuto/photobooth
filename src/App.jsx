@@ -26,6 +26,7 @@ function App() {
   const [buttonAnimating, setButtonAnimating] = useState([0, 0, 0, 0, 0, 0, 0, 0]);
   const [landingOpacity, setLandingOpacity] = useState(true);
   const [landingVisible, setLandingVisible] = useState(true);
+  const [setting, setSetting] = useState(50);
 
   const refs = [componentRef, componentRef2, componentRef3, componentRef4, componentRef5]
 
@@ -157,9 +158,11 @@ function App() {
                   <div className={"relative border-22 border-white"}>
                     <div className={`absolute z-50 inset-0 bg-white transition-opacity ${flash ? "opacity-80" : "opacity-0"} duration-300`}></div>
                     <p className={`absolute z-20 ${!innerTimer ? "hidden" : ""} text-stone-50 outline-black shadow-2xl font-bold text-4xl`}>{innerTimer}</p>
-                    <WebCam filter={filter} onProcessed={(pic) => setLatestProcessed(pic)}></WebCam>
+                    <WebCam filter={filter} setting={setting} onProcessed={(pic) => setLatestProcessed(pic)}></WebCam>
                   </div>
                   <div className={"text-right text-black"}>
+                    <label> Parameters: </label>
+                    <input type={"range"} className={"accent-black"} min={0} max={100} value={setting} onChange={(event) => setSetting(event.target.value) } />
                     <label> Timer Countdown: </label>
                     <select className={"border-2 rounded-xl my-2 ml-2 px-4"} onChange={changeTimer} disabled={isCapturing}>
                       <option className={"hover:bg-black text-red-950"} value="3">3 secs</option>
@@ -251,11 +254,11 @@ function App() {
               </div>
             </div>
             <div className={"relative flex-1/3"}>
-              <div onClick={() => {setCurrentFrame(0);}}><Picture list={pictures} num={"0"} current={currentFrame} state={filter} ref={componentRef} frame={"bg-[#6aab9c]"} className={"absolute h-full w-68 left-24 top-0 z-2"} /></div>
-              <div onClick={() => {setCurrentFrame(1); }}><Picture list={pictures} num={"1"} current={currentFrame} state={filter} ref={componentRef2} frame={"bg-[#fa9284]"} className={"absolute h-full w-68 left-24 top-0 z-4"} /></div>
-              <div onClick={() => {setCurrentFrame(2); }}><Picture list={pictures} num={"2"} current={currentFrame} state={filter} ref={componentRef3} frame={"bg-[#e06c78]"} className={"absolute h-full w-68 left-24 top-0 z-4"} /></div>
-              <div onClick={() => {setCurrentFrame(3); }}><Picture list={pictures} num={"3"} current={currentFrame} state={filter} ref={componentRef4} frame={"bg-[#5874dc]"} className={"absolute h-full w-68 left-24 top-0 z-4"} /></div>
-              <div onClick={() => {setCurrentFrame(4); }}><Picture list={pictures} num={"4"} current={currentFrame} state={filter} ref={componentRef5} frame={"bg-[#384e78]"} className={"absolute h-full w-68 left-24 top-0 z-4"} /></div>
+              <div onClick={() => {setCurrentFrame(0);}}><Picture setting={setting} list={pictures} num={"0"} current={currentFrame} state={filter} ref={componentRef} frame={"bg-[#6aab9c]"} className={"absolute h-full w-68 left-24 top-0 z-2"} /></div>
+              <div onClick={() => {setCurrentFrame(1); }}><Picture setting={setting} list={pictures} num={"1"} current={currentFrame} state={filter} ref={componentRef2} frame={"bg-[#fa9284]"} className={"absolute h-full w-68 left-24 top-0 z-4"} /></div>
+              <div onClick={() => {setCurrentFrame(2); }}><Picture setting={setting} list={pictures} num={"2"} current={currentFrame} state={filter} ref={componentRef3} frame={"bg-[#e06c78]"} className={"absolute h-full w-68 left-24 top-0 z-4"} /></div>
+              <div onClick={() => {setCurrentFrame(3); }}><Picture setting={setting} list={pictures} num={"3"} current={currentFrame} state={filter} ref={componentRef4} frame={"bg-[#5874dc]"} className={"absolute h-full w-68 left-24 top-0 z-4"} /></div>
+              <div onClick={() => {setCurrentFrame(4); }}><Picture setting={setting} list={pictures} num={"4"} current={currentFrame} state={filter} ref={componentRef5} frame={"bg-[#384e78]"} className={"absolute h-full w-68 left-24 top-0 z-4"} /></div>
             </div>
 
 

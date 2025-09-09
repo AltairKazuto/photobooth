@@ -23,18 +23,18 @@ def handle_message(data):
 
 @sio.on('image')
 def image(data_image):
-    emit('response_back', image_formation(data_image["sc"], data_image["filter"]))
+    emit('response_back', image_formation(data_image["sc"], data_image["filter"], data_image["setting"]))
 
 
 @sio.on('list_image')
 def process_list_image(data_images):
     newList = []
     for i in data_images["sc"]:
-        newList.append(image_formation(i, data_images["filter"]))
+        newList.append(image_formation(i, data_images["filter"], data_images["setting"]))
     emit('list', newList)
 
 
-def image_formation(data_image, filter):
+def image_formation(data_image, filter, setting):
 
     _, encoded_data = data_image.split(',', 1)
     data_bytes = encoded_data.encode()
@@ -53,21 +53,20 @@ def image_formation(data_image, filter):
 #         with Pool(processes = num_processes) as pool:
 #             processed_chunks = pool.map(old_film_filter, chunks)
 #         frame = np.vstack(processed_chunks)
-        frame = old_film_filter(frame)
+        frame = old_film_filter(frame, setting)
     elif filter == "TV":
-        frame = bw_tv_filter(frame)
+        frame = bw_tv_filter(frame, setting)
     elif filter == "Pop_Art":
-        frame = pop_art_filter_v2(frame)
+        frame = pop_art_filter_v2(frame, setting)
     elif filter == "VHS":
-        frame = vhs_filter(frame)
+        frame = vhs_filter(frame, setting)
     elif filter == "Neon":
-        print('here')
-        frame = neon_filter(frame)
+        frame = neon_filter(frame, setting)
     else:
         frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
     
     imgencode = cv2.imencode('.jpg', frame, [int(cv2.IMWRITE_JPEG_QUALITY), 50])[1]
-    print("here", cv2.cuda.getCudaEnabledDeviceCount(), cpu_count())
+#     print("here", cv2.cuda.getCudaEnabledDeviceCount(), cpu_count())
     stringData = base64.b64encode(imgencode).decode('utf-8')
     b64_src = 'data:image/jpeg;base64,'
 

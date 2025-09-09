@@ -5,7 +5,7 @@ function createWindow() {
         width: 1440,
         height: 880,
         webPreferences: {
-            devTools: false, // Disable DevTools
+            // devTools: false, // Disable DevTools
             nodeIntegration: true, // Enable Node.js integration in the renderer process
             contextIsolation: false // Disable context isolation for simplicity in development
         },
