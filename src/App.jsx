@@ -16,14 +16,18 @@ function App() {
   const [flash, setFlash] = useState(false);
   const [selectedTimer, setSelectedTimer] = useState(3);
   const componentRef = useRef(null);
-  const [currentFrame, setCurrentFrame] = useState("bg-slate-300")
-  const [buttonAnimating, setButtonAnimating] = useState([0, 0, 0, 0, 0, 0, 0]);
+  const componentRef2 = useRef(null);
+  const componentRef3 = useRef(null);
+  const componentRef4 = useRef(null);
+  const componentRef5 = useRef(null);
+  const [currentFrame, setCurrentFrame] = useState(0)
+  const [buttonAnimating, setButtonAnimating] = useState([0, 0, 0, 0, 0, 0, 0, 0]);
   const handleExport = async() => {
-    if (componentRef.current) {
-      const dataUrl = await toPng(componentRef.current, {
+    if (componentRef2.current) {
+      const dataUrl = await toPng(componentRef2.current, {
         cacheBust: true,
-        width: componentRef.current.scrollWidth,
-        height: componentRef.current.scrollHeight
+        width: componentRef2.current.scrollWidth,
+        height: componentRef2.current.scrollHeight
       });
       const link = document.createElement("a");
       link.download = "export.png";
@@ -187,9 +191,17 @@ function App() {
 
 
                     </div>
-                    <button className={"absolute -top-3 -right-20 flex-auto h-18 w-18"} onClick={() => {handleExport()}}>
-                      <img className={"w-full h-full"} src={require("./icons/export.png")} />
-                    </button>
+                    <div className={"absolute flex-auto w-full flex justify-center px-2"}>
+                      <button className={`absolute -top-3 -right-20 flex-auto shadow-md h-18 w-18 z-1 transition-all duration-100 ease-in-out ${buttonAnimating[7] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[7] == 2 ? 'mt-[var(--click-button)]': ''}`}
+                              onMouseOver={() => buttonAnimation(7, 1)}
+                              onMouseUp={() => buttonAnimation(7, 1)}
+                              onMouseOut={() => buttonAnimation(7, 0)}
+                              onMouseDown={() => buttonAnimation(7, 2)}
+                              onClick={() => {handleExport()}}>
+                        <img className={"w-full h-full"} src={require("./icons/export.png")} />
+                      </button>
+                      <div className={"absolute -right-20 top-0 h-18 w-18 bg-red-400 rounded-2xl"}></div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -208,16 +220,26 @@ function App() {
 
             </div>
         </div>
+        </div>
+        <div className={"relative flex-1/3"}>
+            <div onClick={() => {setCurrentFrame(0);}}><Picture list={pictures} num={"0"} current={currentFrame} state={filter} ref={componentRef} frame={"bg-[#6aab9c]"} className={"absolute h-full w-68 left-24 top-0 z-2"} /></div>
+            <div onClick={() => {setCurrentFrame(1); }}><Picture list={pictures} num={"1"} current={currentFrame} state={filter} ref={componentRef2} frame={"bg-[#fa9284]"} className={"absolute h-full w-68 left-24 top-0 z-4"} /></div>
+          <div onClick={() => {setCurrentFrame(2); }}><Picture list={pictures} num={"2"} current={currentFrame} state={filter} ref={componentRef3} frame={"bg-[#e06c78]"} className={"absolute h-full w-68 left-24 top-0 z-4"} /></div>
+          <div onClick={() => {setCurrentFrame(3); }}><Picture list={pictures} num={"3"} current={currentFrame} state={filter} ref={componentRef4} frame={"bg-[#5874dc]"} className={"absolute h-full w-68 left-24 top-0 z-4"} /></div>
+          <div onClick={() => {setCurrentFrame(4); }}><Picture list={pictures} num={"4"} current={currentFrame} state={filter} ref={componentRef5} frame={"bg-[#384e78]"} className={"absolute h-full w-68 left-24 top-0 z-4"} /></div>
+
+            {/*<button className={"absolute h-full bg-[#e06c78] w-68 left-36 top-0 z-3"} onClick={() => {setCurrentFrame("bg-[#ed6c78]")}}></button>*/}
+            {/*<button className={"absolute h-full bg-[#5784dc] w-68 left-48 top-0 z-2"} onClick={() => {setCurrentFrame("bg-[#5874dc]")}}></button>*/}
+            {/*<button className={"absolute h-full bg-[#384e78] w-68 left-60 top-0 z-1"} onClick={() => {setCurrentFrame("bg-[#384e7b]")}}></button>*/}
+            {/*<button className={" h-full w-80 mt-240"} onClick={() => {setCurrentFrame("bg-[url(https://i.pinimg.com/736x/cf/5e/27/cf5e272e452b9c7caa8fa0523eeeba9f.jpg)] bg-repeat")}}>*/}
+            {/*  /!*<div className={"h-full w-full  bg-black -z-10"}>*!/*/}
+            {/*  /!*</div>*!/*/}
+            {/*  /!*<button onClick={() => {setCurrentFrame("bg-[url(https://i.pinimg.com/736x/cf/5e/27/cf5e272e452b9c7caa8fa0523eeeba9f.jpg)] bg-repeat")}}>Frame3</button>*!/*/}
+            {/*  Frame 3*/}
+            {/*</button>*/}
+          </div>
 
 
-
-
-        </div>   
-        <Picture list={pictures} state={filter} ref={componentRef} frame={currentFrame}/>
-        {/* Ikaw na bahala dito AHAHA (filters), I recommend na ung frames na gagamitin is import dito para masama siya export on*/}
-        <button onClick={() => {setCurrentFrame("bg-slate-300")}}>Frame1</button>
-        <button onClick={() => {setCurrentFrame("bg-[url(https://d7hftxdivxxvm.cloudfront.net/?height=630&quality=80&resize_to=fill&src=https%3A%2F%2Fartsy-media-uploads.s3.amazonaws.com%2F2P6t_Yt6dF0TNN76dlp-_Q%252F3417757448_4a6bdf36ce_o.jpg&width=1200)]")}}>Frame2</button>
-        <button onClick={() => {setCurrentFrame("bg-[url(https://i.pinimg.com/736x/cf/5e/27/cf5e272e452b9c7caa8fa0523eeeba9f.jpg)] bg-repeat")}}>Frame3</button>
       </div>
       </div>
     </>

@@ -7,7 +7,20 @@ const Picture = forwardRef((props, ref) => {
 
     const [listofPics, setListofPics] = useState([props.list]);
     const [filteredPics, setFilteredPics] = useState([props.list]);
+    const [frameAnimating, setFrameAnimating] = useState(0);
 
+    const offsets = ['ml-12', 'ml-24', 'ml-36', 'ml-48', 'ml-60']
+    const zIndex = ['z-5', 'z-4', 'z-3', 'z-2', 'z-1']
+
+    useEffect(() => {
+        console.log('inhere', props.current, props.num)
+        if (props.current == props.num) {
+            setFrameAnimating(1)
+        }
+        else {
+            setFrameAnimating(0)
+    }}, [props.current])
+        // setTimeout(() => setFrameAnimating(0), 500)
 
     useEffect(() => {
         setListofPics(props.list);
@@ -29,8 +42,8 @@ const Picture = forwardRef((props, ref) => {
 
 
     return (
-        <div className={`shadow-md ${props.frame}`} ref={ref}>
-            <div className="w-52 p-3 inline-grid grid-cols-1 gap-3">
+        <div className={`absolute shadow-md ${props.frame} h-full w-68 transition-all duration-300 ease-in-out ${ frameAnimating == 1 ? 'ml-0 z-10': offsets[props.num] + ' ' + zIndex[props.num]} ${zIndex[props.num]}`}  ref={ref}>
+            <div className="h-full w-full p-6 inline-grid grid-cols-1 gap-6">
                 {filteredPics.map((pic, i) => (<img src={pic} alt="oh" key={i}/>)).reverse().slice(0,4)}
             </div>
         </div>
