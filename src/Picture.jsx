@@ -1,5 +1,6 @@
 import { io } from "socket.io-client"
 import React, { useEffect, useState, forwardRef } from 'react'
+import black from './icons/black.png';
 
 const socket = io("http://localhost:5000/");
 
@@ -42,9 +43,14 @@ const Picture = forwardRef((props, ref) => {
 
 
     return (
-        <div className={`absolute shadow-[3px_3px_10px_rgba(0,0,0,0.3)] ${props.frame} h-full w-68 transition-all duration-300 ease-in-out ${ frameAnimating == 1 ? 'ml-0 z-10': offsets[props.num] + ' ' + zIndex[props.num]} ${zIndex[props.num]}`}  ref={ref}>
-            <div className="h-full w-full p-6 inline-grid grid-cols-1 gap-6">
+        <div className={`absolute shadow-[3px_3px_10px_rgba(0,0,0,0.3)] ${props.frame} h-full w-52 transition-all duration-300 ease-in-out ${ frameAnimating == 1 ? 'ml-0 z-10': offsets[props.num] + ' ' + zIndex[props.num]} ${zIndex[props.num]}`}  ref={ref}>
+            <div className="h-full w-full p-6 inline-grid grid-cols-1 gap-6 text-center">
                 {filteredPics.map((pic, i) => (<img src={pic} alt="oh" key={i}/>)).reverse().slice(0,4)}
+                {(filteredPics.length  < 1) && <img src={black} />}
+                {(filteredPics.length < 2) && <img src={black} />}
+                {(filteredPics.length < 3) && <img src={black} />}
+                {(filteredPics.length < 4) && <img src={black} />}
+                <p className={"text-[20px] font-bold text-white"}> filter through time </p>
             </div>
         </div>
     )

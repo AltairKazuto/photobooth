@@ -34,9 +34,9 @@ function WebCam(props) {
 
     return (
         <>  
-            <Webcam ref={webcamRef} width={840} screenshotFormat="image/jpeg" mirrored="true"/>
+            <Webcam ref={webcamRef} width={640} screenshotFormat="image/jpeg" mirrored="true"/>
             <div className='absolute top-0 left-0 z-10'>
-                {processed && <img src={processed} width={840} alt="Processed" />}
+                {processed && <img src={processed} width={640} alt="Processed" />}
             </div>
         </>
     )
