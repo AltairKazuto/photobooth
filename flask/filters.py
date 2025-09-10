@@ -19,7 +19,7 @@ def old_film_filter(img, setting):
 
     #vignette: https://dev.to/ethand91/creating-more-filters-with-opencv-and-python-3bhh
     h, w = old_film.shape[:2]
-    level = 1.5
+    level = 2.5
     x_resultant_kernel = cv2.getGaussianKernel(w, w/level)
     y_resultant_kernel = cv2.getGaussianKernel(h, h/level)
 
