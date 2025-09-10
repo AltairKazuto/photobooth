@@ -31,23 +31,16 @@ function App() {
   const [setting, setSetting] = useState(50);
   const [settingList, setSettingList] = useState([]);
   const [singleEdit, setSingleEdit] = useState(true);
-  const [manualTrigger, setManualTrigger] = useState(true); //hehe
+  const [manualTrigger, setManualTrigger] = useState(true);
 
   const refs = [componentRef, componentRef2, componentRef3, componentRef4, componentRef5]
 
-  // Colors
-// #6aab9c #253b36
-//   #fa9284 #52312c
-//   #e06c78 #613237
-//   #5874dc #212c52
-//   #384e78 #384e78
   const buttonColor = ["bg-red-400 text-white font-bold text-[20px]",
     "bg-[#6aab9c] text-white font-bold text-[20px]",
     "bg-[#fa9284] text-white font-bold text-[20px]",
     "bg-[#e06c78] text-white font-bold text-[20px]",
     "bg-[#5874dc] text-white font-bold text-[20px]",
     "bg-[#384e78] text-white font-bold text-[20px]"];
-  const buttonSideColor = " bg-gray-700";
 
   const handleExport = async() => {
     if (refs[currentFrame].current) {
@@ -64,15 +57,12 @@ function App() {
   }
 
   const hideLanding = () => {
-    console.log(landingOpacity)
     setLandingOpacity(false)
-    console.log(landingOpacity)
     setTimeout(() => setLandingVisible(false), 800)
   }
 
   const singleToggle = () => {
     setSingleEdit(!singleEdit);
-    console.log(singleEdit);
   }
 
   useEffect(() => {
@@ -81,7 +71,6 @@ function App() {
         let modifiedList = filterList;
         modifiedList[modifiedList.length-1] = filter
         setFilterList(modifiedList);
-        console.log('should not b end')
         setManualTrigger(!manualTrigger);
       }
     }
@@ -92,7 +81,6 @@ function App() {
       let modifiedList = settingList;
       modifiedList[modifiedList.length-1] = setting
       setSettingList(modifiedList);
-      console.log('should not b end')
       setManualTrigger(!manualTrigger);
     }
   }, [setting]);
@@ -136,12 +124,10 @@ function App() {
   }
 
   const changeTimer = (event) => {
-    console.log(event.target.value);
     setSelectedTimer(parseInt(event.target.value, 10));
   }
 
   const buttonAnimation = (index, type) => {
-    console.log('in')
     const nextButtonAnimating = buttonAnimating.map((b, i) => {
       if(i == index) {
         return type;
@@ -170,8 +156,6 @@ function App() {
         </div>
     )
   })
-
-
   return (
     <>
       <div>
@@ -188,7 +172,6 @@ function App() {
           <p className={"pt-5 text-[25px] text-black font-bold tracking-widest"}> filter through time </p>
           { /*style={{backgroundImage: `url(${background})`, backgroundSize: 'cover'}}*/}
           <div className="flex pt-5 pb-7.5 w-100%" >
-
             <div className={"flex-2/3"}>
               <div className={"flex justify-center"}>
                 <div>
@@ -215,9 +198,6 @@ function App() {
                         </div>
                       </div>
                   </div>
-
-
-
                   </div>
                   <div className={"flex justify-center"}>
                     <div className={"flex flex-col w-4/5 gap-6"}>
@@ -273,7 +253,6 @@ function App() {
                       </div>
                       <div className={"relative h-18 flex justify-center"}>
                         <div className={"relative flex-auto w-full flex justify-center px-2"}>
-
                           <div className={`relative bg-red-950 w-full h-18 rounded-lg`}>
                             <button className={`relative -top-3 ${buttonColor} shadow-md w-full h-18 rounded-lg z-2 transition-all duration-100 ease-in-out ${buttonAnimating[6] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[6] == 2 ? 'mt-[var(--click-button)]': ''}`}
                                     onMouseOver={() => buttonAnimation(6, 1)}
@@ -282,8 +261,6 @@ function App() {
                                     onMouseDown={() => buttonAnimation(6, 2)}
                                     onClick={() => {startCapture()}} disabled={isCapturing}>Capture</button>
                           </div>
-
-
                         </div>
                         <div className={"absolute flex-auto w-full flex justify-center px-2"}>
                           <button className={`absolute -top-3 -right-20 flex-auto shadow-md h-18 w-18 z-1 transition-all duration-100 ease-in-out ${buttonAnimating[7] == 1 ? 'mt-[var(--hover-button)]': buttonAnimating[7] == 2 ? 'mt-[var(--click-button)]': ''}`}
@@ -309,8 +286,6 @@ function App() {
               <div onClick={() => {setCurrentFrame(3); }}><Picture manual={manualTrigger} setting={setting} filterList={filterList} settingList={settingList} toggle={singleEdit} list={pictures} num={"3"} current={currentFrame} state={filter} ref={componentRef4} frame={"bg-[#5874dc]"} className={"absolute h-full w-68 left-24 top-0 z-4"} /></div>
               <div onClick={() => {setCurrentFrame(4); }}><Picture manual={manualTrigger} setting={setting} filterList={filterList} settingList={settingList} toggle={singleEdit} list={pictures} num={"4"} current={currentFrame} state={filter} ref={componentRef5} frame={"bg-[#384e78]"} className={"absolute h-full w-68 left-24 top-0 z-4"} /></div>
             </div>
-
-
           </div>
         </div>
 

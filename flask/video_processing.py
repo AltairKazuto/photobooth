@@ -47,16 +47,7 @@ def image_formation(data_image, filter, setting):
     pimg = Image.open(byte_stream)
     matrix = np.array(pimg)
     frame = cv2.resize(matrix, (640, 480))
-
-#     num_processes = cpu_count()
-#     chunk_size = 40
-#     chunks = [frame[i*chunk_size:(i+1)*chunk_size] for i in range(num_processes)]
-
-
     if filter == 'Old_School':
-#         with Pool(processes = num_processes) as pool:
-#             processed_chunks = pool.map(old_film_filter, chunks)
-#         frame = np.vstack(processed_chunks)
         frame = old_film_filter(frame, setting)
     elif filter == "TV":
         frame = bw_tv_filter(frame, setting)
@@ -70,7 +61,6 @@ def image_formation(data_image, filter, setting):
         frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
     
     imgencode = cv2.imencode('.jpg', frame, [int(cv2.IMWRITE_JPEG_QUALITY), 50])[1]
-#     print("here", cv2.cuda.getCudaEnabledDeviceCount(), cpu_count())
     stringData = base64.b64encode(imgencode).decode('utf-8')
     b64_src = 'data:image/jpeg;base64,'
 

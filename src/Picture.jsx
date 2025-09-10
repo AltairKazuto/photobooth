@@ -21,35 +21,24 @@ const Picture = forwardRef((props, ref) => {
         else {
             setFrameAnimating(0)
     }}, [props.current])
-        // setTimeout(() => setFrameAnimating(0), 500)
 
     useEffect(() => {
         setListofPics(props.list);
     }, [props.list])
 
     useEffect(() => {
-        console.log(props.filterList)
-        console.log(props.settingList)
         socket.emit("list_image", {sc: listofPics, filter: props.state, filters: props.filterList, toggle: props.toggle, setting: props.setting, settings: props.settingList});
     }, [props.state, listofPics, props.setting, props.toggle, props.filterList, props.settingList, props.manual]);
 
 
     useEffect(() => {
         socket.on('list', function(data) {
-            // if(props.toggle) {
-                console.log('nothere')
-                setFilteredPics(data);
-            // }
-            // else {
-            //     console.log('here')
-            //     setFilteredPics([...filteredPics, props.latestFiltered]);
-            // }
+            setFilteredPics(data);
         });
         return () =>{
             socket.off("list")
         }
     }, [])
-
 
     return (
         <div className={`absolute shadow-[3px_3px_10px_rgba(0,0,0,0.3)] ${props.frame} h-full w-52 transition-all duration-300 ease-in-out ${ frameAnimating == 1 ? 'ml-0 z-10': offsets[props.num] + ' ' + zIndex[props.num]} ${zIndex[props.num]}`}  ref={ref}>
