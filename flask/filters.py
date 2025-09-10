@@ -101,15 +101,13 @@ def neon_filter(img, setting):
     #read the image
     hsv_image = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     h, s, v= cv2.split(hsv_image)
-
-
-#     print('setting', setting, type(setting))
-
+    
     setting = int(setting)
     setting = setting * 255 / 100
     dark_threshold = setting
     bright_threshold = setting
 
+   # threshold based on v
     dark_mask = cv2.inRange(v, 0, dark_threshold)
     bright_mask = cv2.inRange(v, bright_threshold, 255)
 
@@ -118,6 +116,7 @@ def neon_filter(img, setting):
     new_s = cv2.add(s, 155)
     new_v = cv2.add(v, 20)
 
+   # add new hue to each mask
     new_h[dark_mask > 0] = 120
     new_h[bright_mask > 0] = 170
 
