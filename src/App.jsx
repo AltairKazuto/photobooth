@@ -199,13 +199,13 @@ function App() {
                   </div>
                   <div className={"flex justify-center"}>
                     <div>
-                      <div className={"text-right text-black flex"}>
-                        <button className={"border-2 border-black rounded-xl my-2 ml-2 p-1.5 hover:bg-black hover:text-white"} onClick={() => singleToggle()} > {singleEdit? 'Single Edit': 'Batch Edit'} </button>
-                        <div className={"border-2 border-black rounded-xl my-2 ml-2 p-1.5 hover:bg-black hover:text-white"}>
+                      <div className={"text-right text-black font-bold flex"}>
+                        <button className={"border-2 bg-white border-black rounded-xl my-2 ml-2 p-1.5 hover:bg-black hover:text-white"} onClick={() => singleToggle()} > {singleEdit? 'Single Edit': 'Batch Edit'} </button>
+                        <div className={"border-2 bg-white border-black rounded-xl my-2 ml-2 p-1.5 hover:bg-black hover:text-white"}>
                           <label> Parameters: </label>
                           <input type={"range"} className={"accent-black"} min={0} max={100} value={setting} onChange={(event) => setSetting(event.target.value) } />
                         </div>
-                        <div className={"border-2 border-black rounded-xl my-2 ml-2 hover:bg-black hover:text-white"}>
+                        <div className={"border-2 bg-white border-black rounded-xl my-2 ml-2 px-1.5 drop-shadow-lg hover:bg-black hover:text-white"}>
                           <label> Timer Countdown: </label>
                           <select onChange={changeTimer} disabled={isCapturing}>
                             <option className={"hover:bg-black text-red-950"} value="3">3 secs</option>
