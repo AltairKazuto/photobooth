@@ -3,7 +3,7 @@
 
 ## Setup
 ### ->git clone https://github.com/AltairKazuto/photobooth.git
-$$$ -> cd photobooth
+### -> cd photobooth
 ### -> npm install
 - install npm dependencies
 ### -> pip install -r flask/requirements.txt
