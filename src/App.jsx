@@ -12,6 +12,8 @@ function App() {
   const [filter, setFilter] = useState('Normal');
   const [pictures, setPictures] = useState([]);
   const [latestProcessed, setLatestProcessed] = useState(null);
+  const [latestFiltered, setLatestFiltered] = useState(null);
+  const [filterList, setFilterList] = useState(null);
   const [counter, setCounter] = useState(4);
   const [isCapturing, setIsCapturing] = useState(false);
   const [innerTimer, setInnerTimer] = useState(0);
@@ -27,6 +29,9 @@ function App() {
   const [landingOpacity, setLandingOpacity] = useState(true);
   const [landingVisible, setLandingVisible] = useState(true);
   const [setting, setSetting] = useState(50);
+  const [settingList, setSettingList] = useState([]);
+  const [singleEdit, setSingleEdit] = useState(true);
+  const [manualTrigger, setManualTrigger] = useState(true); //hehe
 
   const refs = [componentRef, componentRef2, componentRef3, componentRef4, componentRef5]
 
@@ -65,6 +70,33 @@ function App() {
     setTimeout(() => setLandingVisible(false), 800)
   }
 
+  const singleToggle = () => {
+    setSingleEdit(!singleEdit);
+    console.log(singleEdit);
+  }
+
+  useEffect(() => {
+    if (filterList != null) {
+      if(filterList.length == 4) {
+        let modifiedList = filterList;
+        modifiedList[modifiedList.length-1] = filter
+        setFilterList(modifiedList);
+        console.log('should not b end')
+        setManualTrigger(!manualTrigger);
+      }
+    }
+  }, [filter]);
+
+  useEffect(() => {
+    if(settingList.length == 4) {
+      let modifiedList = settingList;
+      modifiedList[modifiedList.length-1] = setting
+      setSettingList(modifiedList);
+      console.log('should not b end')
+      setManualTrigger(!manualTrigger);
+    }
+  }, [setting]);
+
   useEffect(()=> {
     if (isCapturing && counter > 0) {
       const timeout = setTimeout(() => {
@@ -84,6 +116,8 @@ function App() {
       setFlash(true);
       const timeout = setTimeout(() => {
         setPictures([...pictures, latestProcessed]);
+        setFilterList([...filterList, filter]);
+        setSettingList([...settingList, setting]);
         setInnerTimer(selectedTimer);
         setFlash(false);
       }, 500);
@@ -95,6 +129,9 @@ function App() {
   const startCapture = () => {
     setInnerTimer(selectedTimer);
     setCounter(4);
+    setFilterList([]);
+    setSettingList([]);
+    setPictures([]);
     setIsCapturing(true);
   }
 
@@ -158,17 +195,29 @@ function App() {
                   <div className={"relative border-22 border-white"}>
                     <div className={`absolute z-50 inset-0 bg-white transition-opacity ${flash ? "opacity-80" : "opacity-0"} duration-300`}></div>
                     <p className={`absolute z-20 ${!innerTimer ? "hidden" : ""} text-stone-50 outline-black shadow-2xl font-bold text-4xl`}>{innerTimer}</p>
-                    <WebCam filter={filter} setting={setting} onProcessed={(pic) => setLatestProcessed(pic)}></WebCam>
+                    <WebCam filter={filter} setting={setting} onProcessed={(pic) => {setLatestProcessed(pic)}} filtered={(pic) => setLatestFiltered(pic)}></WebCam>
                   </div>
-                  <div className={"text-right text-black"}>
-                    <label> Parameters: </label>
-                    <input type={"range"} className={"accent-black"} min={0} max={100} value={setting} onChange={(event) => setSetting(event.target.value) } />
-                    <label> Timer Countdown: </label>
-                    <select className={"border-2 rounded-xl my-2 ml-2 px-4"} onChange={changeTimer} disabled={isCapturing}>
-                      <option className={"hover:bg-black text-red-950"} value="3">3 secs</option>
-                      <option className={"hover:bg-black text-red-950"} value="5">5 secs</option>
-                      <option className={"hover:bg-black text-red-950"} value="10">10 secs</option>
-                    </select>
+                  <div className={"flex justify-center"}>
+                    <div>
+                      <div className={"text-right text-black flex"}>
+                        <button className={"border-2 border-black rounded-xl my-2 ml-2 p-1.5 hover:bg-black hover:text-white"} onClick={() => singleToggle()} > {singleEdit? 'Single Edit': 'Batch Edit'} </button>
+                        <div className={"border-2 border-black rounded-xl my-2 ml-2 p-1.5 hover:bg-black hover:text-white"}>
+                          <label> Parameters: </label>
+                          <input type={"range"} className={"accent-black"} min={0} max={100} value={setting} onChange={(event) => setSetting(event.target.value) } />
+                        </div>
+                        <div className={"border-2 border-black rounded-xl my-2 ml-2 hover:bg-black hover:text-white"}>
+                          <label> Timer Countdown: </label>
+                          <select onChange={changeTimer} disabled={isCapturing}>
+                            <option className={"hover:bg-black text-red-950"} value="3">3 secs</option>
+                            <option className={"hover:bg-black text-red-950"} value="5">5 secs</option>
+                            <option className={"hover:bg-black text-red-950"} value="10">10 secs</option>
+                          </select>
+                        </div>
+                      </div>
+                  </div>
+
+
+
                   </div>
                   <div className={"flex justify-center"}>
                     <div className={"flex flex-col w-4/5 gap-6"}>
@@ -254,11 +303,11 @@ function App() {
               </div>
             </div>
             <div className={"relative flex-1/3"}>
-              <div onClick={() => {setCurrentFrame(0);}}><Picture setting={setting} list={pictures} num={"0"} current={currentFrame} state={filter} ref={componentRef} frame={"bg-[#6aab9c]"} className={"absolute h-full w-68 left-24 top-0 z-2"} /></div>
-              <div onClick={() => {setCurrentFrame(1); }}><Picture setting={setting} list={pictures} num={"1"} current={currentFrame} state={filter} ref={componentRef2} frame={"bg-[#fa9284]"} className={"absolute h-full w-68 left-24 top-0 z-4"} /></div>
-              <div onClick={() => {setCurrentFrame(2); }}><Picture setting={setting} list={pictures} num={"2"} current={currentFrame} state={filter} ref={componentRef3} frame={"bg-[#e06c78]"} className={"absolute h-full w-68 left-24 top-0 z-4"} /></div>
-              <div onClick={() => {setCurrentFrame(3); }}><Picture setting={setting} list={pictures} num={"3"} current={currentFrame} state={filter} ref={componentRef4} frame={"bg-[#5874dc]"} className={"absolute h-full w-68 left-24 top-0 z-4"} /></div>
-              <div onClick={() => {setCurrentFrame(4); }}><Picture setting={setting} list={pictures} num={"4"} current={currentFrame} state={filter} ref={componentRef5} frame={"bg-[#384e78]"} className={"absolute h-full w-68 left-24 top-0 z-4"} /></div>
+              <div onClick={() => {setCurrentFrame(0);}}><Picture manual={manualTrigger} setting={setting} filterList={filterList} settingList={settingList} toggle={singleEdit} list={pictures} num={"0"} current={currentFrame} state={filter} ref={componentRef} frame={"bg-[#6aab9c]"} className={"absolute h-full w-68 left-24 top-0 z-2"} /></div>
+              <div onClick={() => {setCurrentFrame(1); }}><Picture manual={manualTrigger} setting={setting} filterList={filterList} settingList={settingList} toggle={singleEdit} list={pictures} num={"1"} current={currentFrame} state={filter} ref={componentRef2} frame={"bg-[#fa9284]"} className={"absolute h-full w-68 left-24 top-0 z-4"} /></div>
+              <div onClick={() => {setCurrentFrame(2); }}><Picture manual={manualTrigger} setting={setting} filterList={filterList} settingList={settingList} toggle={singleEdit} list={pictures} num={"2"} current={currentFrame} state={filter} ref={componentRef3} frame={"bg-[#e06c78]"} className={"absolute h-full w-68 left-24 top-0 z-4"} /></div>
+              <div onClick={() => {setCurrentFrame(3); }}><Picture manual={manualTrigger} setting={setting} filterList={filterList} settingList={settingList} toggle={singleEdit} list={pictures} num={"3"} current={currentFrame} state={filter} ref={componentRef4} frame={"bg-[#5874dc]"} className={"absolute h-full w-68 left-24 top-0 z-4"} /></div>
+              <div onClick={() => {setCurrentFrame(4); }}><Picture manual={manualTrigger} setting={setting} filterList={filterList} settingList={settingList} toggle={singleEdit} list={pictures} num={"4"} current={currentFrame} state={filter} ref={componentRef5} frame={"bg-[#384e78]"} className={"absolute h-full w-68 left-24 top-0 z-4"} /></div>
             </div>
 
 

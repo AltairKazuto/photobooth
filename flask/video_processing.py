@@ -29,8 +29,12 @@ def image(data_image):
 @sio.on('list_image')
 def process_list_image(data_images):
     newList = []
-    for i in data_images["sc"]:
-        newList.append(image_formation(i, data_images["filter"], data_images["setting"]))
+    if (data_images["toggle"]):
+        for i in data_images["sc"]:
+            newList.append(image_formation(i, data_images["filter"], data_images["setting"]))
+    else:
+        for index, i in enumerate(data_images["sc"]):
+            newList.append(image_formation(i, data_images["filters"][index], data_images["settings"][index]))
     emit('list', newList)
 
 

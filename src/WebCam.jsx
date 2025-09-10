@@ -15,7 +15,6 @@ function WebCam(props) {
             if (webcamRef.current) {
                 const screenshot = webcamRef.current.getScreenshot();
                 if (screenshot) {
-                    console.log(props.setting)
                     socket.emit('image', {sc: screenshot, filter: props.filter, setting: props.setting});
                 }
                 if (props.onProcessed) props.onProcessed(screenshot);
@@ -29,6 +28,7 @@ function WebCam(props) {
     useEffect(() => {
         socket.on('response_back', function(data) {
             setProcessed(data);
+            props.filtered(data);
         });
         return () => socket.off("response_back");
     }, []);
