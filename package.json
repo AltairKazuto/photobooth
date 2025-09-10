@@ -19,7 +19,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start & sleep 3  && python3.12 flask/video_processing.py & sleep 5 && electron src/electron.js",
+    "start": "react-scripts start & sleep 3  && python flask/video_processing.py & sleep 5 && electron src/electron.js",
     "build": "react-scripts build",
     "electron": "electron src/electron.js",
     "test": "react-scripts test",
